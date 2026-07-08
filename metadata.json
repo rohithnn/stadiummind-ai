@@ -1,0 +1,6 @@
+{
+  "name": "StadiumMind AI",
+  "description": "Smart Stadium Operating System for FIFA World Cup 2026. Integrates a Digital Twin, multi-agent operational dispatch logs, real-time security alerts, ticket concierge, sustainability grid metrics, and role-based operational views.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

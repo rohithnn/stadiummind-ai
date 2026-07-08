@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0066FF;
+  --color-danger: #FF3B30;
+  --color-success: #34C759;
+  --color-warning: #FFCC00;
+
+  --color-indigo-200: #D0E2FF;
+  --color-indigo-300: #78A9FF;
+  --color-indigo-400: #4589FF;
+  --color-indigo-500: #0F62FE;
+  --color-indigo-600: #0066FF;
+  --color-indigo-700: #0043CE;
+  --color-indigo-800: #002D9C;
+  --color-indigo-950: #021235;
+
+  --color-cyan-300: #82CFFF;
+  --color-cyan-400: #00CCFF;
+  --color-cyan-500: #00AAFF;
+  --color-cyan-950: #051A30;
+
+  --color-rose-300: #FF8585;
+  --color-rose-400: #FF3B30;
+  --color-rose-500: #FF1E1E;
+
+  --color-red-300: #FF8585;
+  --color-red-400: #FF3B30;
+  --color-red-500: #FF1E1E;
+  
+  --color-emerald-300: #8DE09F;
+  --color-emerald-400: #34C759;
+  --color-emerald-500: #2EB14F;
+  --color-emerald-950: #04250E;
+
+  --color-yellow-500: #FFCC00;
+  --color-amber-300: #FFE17D;
+  --color-amber-400: #FFCC00;
+  --color-amber-500: #E6B800;
+
+  --color-slate-950: #050608;
+  --color-slate-900: #0A0B0E;
+  --color-slate-800: #121318;
+  --color-slate-700: #1A1C22;
+  --color-slate-600: #22252C;
+  --color-slate-500: #2B2E38;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom glassy effects and animations */
+@utility glass-panel {
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+}
+
+@utility glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 0 25px rgba(0, 102, 255, 0.15) !important;
+  }
+}
+
+@utility glass-card {
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 6px !important;
+}
+
+@utility glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 204, 255, 0.3) !important;
+}
+
+@utility glow-indigo {
+  box-shadow: 0 0 15px rgba(0, 102, 255, 0.3) !important;
+}
+
+@utility glow-red {
+  box-shadow: 0 0 15px rgba(255, 59, 48, 0.4) !important;
+}
+
+@utility glow-green {
+  box-shadow: 0 0 15px rgba(52, 199, 89, 0.3) !important;
+}
+
+@utility stadium-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px) !important;
+  background-size: 20px 20px !important;
+}
+
+@utility status-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+
+body {
+  background-color: #050608 !important;
+  color: #E0E2E5 !important;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
