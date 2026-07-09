@@ -90,6 +90,7 @@ export default function FanConcierge() {
               <button
                 disabled={navStep === 0}
                 onClick={() => setNavStep(s => s - 1)}
+                aria-label="Previous step"
                 className="px-2.5 py-1 rounded bg-slate-900 border border-white/5 hover:border-white/10 text-[9px] text-gray-300 font-mono transition disabled:opacity-40"
               >
                 PREV
@@ -97,6 +98,7 @@ export default function FanConcierge() {
               <button
                 disabled={navStep === navigationSteps.length - 1}
                 onClick={() => setNavStep(s => s + 1)}
+                aria-label="Next step"
                 className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-[9px] text-white font-mono transition disabled:opacity-40"
               >
                 NEXT
@@ -117,14 +119,14 @@ export default function FanConcierge() {
             Live occupancy tracking from IoT pressure valves. Fans are automatically routed to low-load options.
           </p>
 
-          <div className="space-y-3.5">
+          <ul className="space-y-3.5" aria-label="Restroom occupancy status list">
             {[
               { loc: 'Sector C Level 2 (Nearest)', load: 88, wait: '8 min wait', color: 'bg-rose-500' },
               { loc: 'Sector B Upper Deck', load: 12, wait: '0 min wait', color: 'bg-emerald-500' },
               { loc: 'Sector A Concourse', load: 45, wait: '2 min wait', color: 'bg-yellow-500' },
               { loc: 'Sector D North Access', load: 60, wait: '4 min wait', color: 'bg-yellow-500' },
             ].map((rr, idx) => (
-              <div key={idx} className="bg-slate-950/40 border border-white/5 rounded p-3 flex items-center justify-between">
+              <li key={idx} className="bg-slate-950/40 border border-white/5 rounded p-3 flex items-center justify-between">
                 <div>
                   <div className="text-xs font-semibold text-white">{rr.loc}</div>
                   <div className="text-[9px] text-gray-500 font-mono mt-0.5">{rr.wait}</div>
@@ -137,9 +139,9 @@ export default function FanConcierge() {
                     <div className={`h-full ${rr.color}`} style={{ width: `${rr.load}%` }} />
                   </div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
 
         <div className="bg-cyan-950/15 border border-cyan-500/20 rounded p-3 text-[10px] text-cyan-300 font-mono flex items-center gap-2 mt-4">
@@ -160,16 +162,19 @@ export default function FanConcierge() {
           </p>
 
           {/* Diet select tabs */}
-          <div className="flex flex-wrap gap-1.5 mb-4">
+          <div className="flex flex-wrap gap-1.5 mb-4" role="tablist" aria-label="Dietary concessions filters">
             {[
-              { id: 'all', label: 'All Stalls' },
-              { id: 'halal', label: 'Halal 🟢' },
-              { id: 'vegan', label: 'Vegan 🌿' },
-              { id: 'gluten-free', label: 'Gluten-Free 🥖' },
+              { id: 'all', label: 'All Stalls', aLabel: 'Show all concessions' },
+              { id: 'halal', label: 'Halal 🟢', aLabel: 'Filter by Halal' },
+              { id: 'vegan', label: 'Vegan 🌿', aLabel: 'Filter by Vegan' },
+              { id: 'gluten-free', label: 'Gluten-Free 🥖', aLabel: 'Filter by Gluten-Free' },
             ].map((diet) => (
               <button
                 key={diet.id}
                 onClick={() => setDietFilter(diet.id as any)}
+                role="tab"
+                aria-selected={dietFilter === diet.id}
+                aria-label={diet.aLabel}
                 className={`px-2 py-1 rounded border text-[9px] font-mono transition ${
                   dietFilter === diet.id
                     ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/40'
@@ -181,9 +186,9 @@ export default function FanConcierge() {
             ))}
           </div>
 
-          <div className="space-y-3.5 max-h-[175px] overflow-y-auto pr-1">
+          <ul className="space-y-3.5 max-h-[175px] overflow-y-auto pr-1" aria-label="Concession stands wait-time list">
             {filteredConcessions.map((item, idx) => (
-              <div key={idx} className="bg-slate-950/40 border border-white/5 rounded p-3 flex justify-between items-center hover:border-white/10 transition">
+              <li key={idx} className="bg-slate-950/40 border border-white/5 rounded p-3 flex justify-between items-center hover:border-white/10 transition">
                 <div>
                   <div className="text-xs font-semibold text-white">{item.name}</div>
                   <div className="text-[9px] text-gray-400 mt-0.5">{item.menu}</div>
@@ -202,9 +207,9 @@ export default function FanConcierge() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
 
         <div className="text-[9px] text-gray-500 font-mono text-center border-t border-white/5 pt-3.5 mt-4">

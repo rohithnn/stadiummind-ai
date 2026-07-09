@@ -3,10 +3,20 @@ import path from "path";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import helmet from "helmet";
 
 dotenv.config();
 
 const app = express();
+
+// Set up security headers. In non-production, relax CSP to let Vite's HMR and inline styles load.
+app.use(
+  helmet({
+    contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
+
 app.use(express.json());
 
 const PORT = 3000;
@@ -65,6 +75,14 @@ const AGENT_PROMPTS: Record<string, string> = {
 // API Endpoint for AI Chat Proxying
 app.post("/api/gemini/chat", async (req, res) => {
   const { message, agentId, history } = req.body;
+
+  // Basic Input Validation
+  if (!message || typeof message !== "string" || message.trim() === "") {
+    return res.status(400).json({ error: "Message is required and must be a non-empty string" });
+  }
+  if (!agentId || typeof agentId !== "string") {
+    return res.status(400).json({ error: "AgentId is required and must be a string" });
+  }
 
   try {
     const aiClient = getAI();

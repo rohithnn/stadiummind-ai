@@ -266,6 +266,7 @@ export default function CommandCenter({
               <button
                 onClick={handleRegenerateBriefing}
                 disabled={briefingLoading}
+                aria-label="Regenerate Executive Briefing"
                 className="p-1 text-gray-400 hover:text-white transition disabled:opacity-50"
                 title="Regenerate Executive Report"
               >
@@ -361,6 +362,7 @@ export default function CommandCenter({
                   <div className="flex items-center gap-1.5 shrink-0">
                     <button
                       onClick={() => onRejectDecision(rec.id)}
+                      aria-label={`Reject recommendation: ${rec.title}`}
                       className="p-1.5 rounded-lg bg-red-950/20 hover:bg-red-950/40 border border-red-500/20 text-red-400 transition"
                       title="Reject Recommendation"
                     >
@@ -368,6 +370,7 @@ export default function CommandCenter({
                     </button>
                     <button
                       onClick={() => onApproveDecision(rec.id)}
+                      aria-label={`Approve recommendation: ${rec.title}`}
                       className="p-1.5 rounded-lg bg-emerald-950/20 hover:bg-emerald-950/40 border border-emerald-500/20 text-emerald-400 transition flex items-center gap-1 text-[10px] font-medium"
                     >
                       <Check className="w-3.5 h-3.5" /> Approve

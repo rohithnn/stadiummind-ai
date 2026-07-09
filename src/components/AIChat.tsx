@@ -73,13 +73,14 @@ export default function AIChat({
           <button
             key={agent.id}
             onClick={() => setActiveAgentId(agent.id)}
+            aria-label={`Select agent ${agent.name}`}
             className={`px-3 py-1.5 rounded border flex items-center gap-1.5 transition shrink-0 ${
               activeAgentId === agent.id
                 ? 'bg-indigo-600/20 text-indigo-200 border-indigo-500/50'
                 : 'bg-slate-900/50 text-gray-400 border-white/5 hover:border-white/10'
             }`}
           >
-            <span className="text-xs">{agent.avatar}</span>
+            <span className="text-xs" role="img" aria-label={`${agent.name} avatar`}>{agent.avatar}</span>
             <span className="text-[10px] font-medium font-mono">{agent.name.split(' ')[0]}</span>
           </button>
         ))}
@@ -88,7 +89,7 @@ export default function AIChat({
       {/* Active Agent Info Bar */}
       <div className="bg-slate-950/60 border border-white/5 rounded p-3 mb-4 shrink-0 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <span className="text-xl">{activeAgent.avatar}</span>
+          <span className="text-xl" role="img" aria-label={`${activeAgent.name} indicator`}>{activeAgent.avatar}</span>
           <div>
             <h3 className="text-xs font-display font-semibold text-white flex items-center gap-1.5">
               {activeAgent.name}
@@ -112,8 +113,8 @@ export default function AIChat({
           </div>
         ) : (
           messages
-            .filter(m => m.agentId === activeAgentId)
-            .map((msg) => (
+             .filter(m => m.agentId === activeAgentId)
+             .map((msg) => (
               <div
                 key={msg.id}
                 className={`flex gap-3 max-w-[85%] ${
@@ -126,7 +127,7 @@ export default function AIChat({
                     ? 'bg-indigo-600/10 border-indigo-500/20 text-indigo-400'
                     : 'bg-slate-950 border-white/5 text-gray-300'
                 }`}>
-                  {msg.sender === 'user' ? <User className="w-3.5 h-3.5" /> : activeAgent.avatar}
+                  {msg.sender === 'user' ? <User className="w-3.5 h-3.5" /> : <span role="img" aria-label={activeAgent.name}>{activeAgent.avatar}</span>}
                 </div>
 
                 {/* Bubble Body */}
@@ -152,6 +153,7 @@ export default function AIChat({
           <button
             key={i}
             onClick={() => setInputText(sug)}
+            aria-label={`Use suggestion: ${sug}`}
             className="text-[9px] font-mono bg-slate-950/80 hover:bg-slate-900 text-gray-400 hover:text-white border border-white/5 rounded px-2.5 py-1.5 transition text-left flex items-center gap-1 shrink-0"
           >
             <span>{sug}</span>
@@ -163,15 +165,18 @@ export default function AIChat({
       {/* Chat Form panel */}
       <form onSubmit={handleSubmit} className="shrink-0 flex gap-2 border-t border-white/5 pt-3">
         <input
+          id="chat-input"
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder={`Query ${activeAgent.name.split(' ')[0]}... (e.g. seat, queue, emergency, etc.)`}
+          aria-label={`Ask ${activeAgent.name}`}
           className="flex-1 bg-slate-950 border border-white/10 rounded px-4 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition font-sans"
         />
         <button
           type="submit"
           disabled={!inputText.trim()}
+          aria-label="Send query"
           className="p-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded shrink-0"
         >
           <Send className="w-4 h-4" />

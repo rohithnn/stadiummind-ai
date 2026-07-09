@@ -72,6 +72,7 @@ export default function CCTVPanel({ incidents }: CCTVPanelProps) {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setVisionBoxActive(!visionBoxActive)}
+            aria-label={visionBoxActive ? 'Disable computer vision target bounding boxes' : 'Enable computer vision target bounding boxes'}
             className={`px-3 py-1 rounded border text-[10px] transition ${
               visionBoxActive
                 ? 'bg-rose-500/10 text-rose-300 border-rose-500/40'
@@ -202,6 +203,7 @@ export default function CCTVPanel({ incidents }: CCTVPanelProps) {
               <button
                 key={feed.id}
                 onClick={() => setSelectedFeed(feed.id)}
+                aria-label={`Switch to CCTV feed ${feed.name}`}
                 className={`p-2.5 rounded border text-left transition relative ${
                   selectedFeed === feed.id
                     ? 'bg-indigo-600/20 border-indigo-500 text-white font-medium'
@@ -209,7 +211,7 @@ export default function CCTVPanel({ incidents }: CCTVPanelProps) {
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs">{feed.icon}</span>
+                  <span className="text-xs" role="img" aria-label={`${feed.name} icon`}>{feed.icon}</span>
                   {feed.alert && (
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-ping absolute top-2 right-2" />
                   )}
@@ -235,6 +237,7 @@ export default function CCTVPanel({ incidents }: CCTVPanelProps) {
             <div className="grid grid-cols-3 gap-1.5 mb-4">
               <button
                 onClick={() => handleSignPresetChange('spanish')}
+                aria-label="Preset sign Spanish"
                 className={`py-1.5 rounded border text-[9px] font-mono font-medium transition ${
                   ocrLang === 'Spanish' ? 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' : 'bg-slate-950/40 text-gray-400 border-white/5'
                 }`}
@@ -243,6 +246,7 @@ export default function CCTVPanel({ incidents }: CCTVPanelProps) {
               </button>
               <button
                 onClick={() => handleSignPresetChange('german')}
+                aria-label="Preset sign German"
                 className={`py-1.5 rounded border text-[9px] font-mono font-medium transition ${
                   ocrLang === 'German' ? 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' : 'bg-slate-950/40 text-gray-400 border-white/5'
                 }`}
@@ -251,6 +255,7 @@ export default function CCTVPanel({ incidents }: CCTVPanelProps) {
               </button>
               <button
                 onClick={() => handleSignPresetChange('french')}
+                aria-label="Preset sign French"
                 className={`py-1.5 rounded border text-[9px] font-mono font-medium transition ${
                   ocrLang === 'French' ? 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' : 'bg-slate-950/40 text-gray-400 border-white/5'
                 }`}
@@ -274,6 +279,7 @@ export default function CCTVPanel({ incidents }: CCTVPanelProps) {
             <button
               onClick={handleTranslateSign}
               disabled={ocrTranslating}
+              aria-label="Translate active sign board using OCR"
               className="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs rounded transition flex items-center justify-center gap-1.5 disabled:opacity-50"
             >
               {ocrTranslating ? (

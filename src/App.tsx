@@ -458,6 +458,7 @@ export default function App() {
             <button
               key={item.id}
               onClick={() => setRole(item.id)}
+              aria-label={`Switch view to ${item.label}`}
               className={`px-3 py-1.5 rounded text-[10px] font-medium transition flex items-center gap-1.5 shrink-0 ${
                 role === item.id
                   ? 'bg-gradient-to-r from-cyan-500/10 to-indigo-500/10 border border-indigo-500/30 text-white font-semibold shadow-inner'

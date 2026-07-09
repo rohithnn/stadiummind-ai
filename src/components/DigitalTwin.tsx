@@ -85,6 +85,7 @@ export default function DigitalTwin({
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <button
             onClick={() => setShowHeatmap(!showHeatmap)}
+            aria-label="Toggle spectator heat map overlay"
             className={`px-3 py-1.5 rounded border transition-all ${
               showHeatmap
                 ? 'bg-indigo-600/30 text-indigo-200 border-indigo-500/50'
@@ -95,6 +96,7 @@ export default function DigitalTwin({
           </button>
           <button
             onClick={() => setIsPlaying(!isPlaying)}
+            aria-label={isPlaying ? "Pause Simulation" : "Resume Simulation"}
             className="p-1.5 rounded bg-slate-800 border border-slate-700 text-gray-300 hover:bg-slate-700 transition"
             title={isPlaying ? "Pause Simulation" : "Resume Simulation"}
           >
@@ -111,15 +113,17 @@ export default function DigitalTwin({
           {/* Legend */}
           <div className="absolute top-3 left-3 bg-slate-900/90 border border-white/5 rounded-lg p-2.5 text-[10px] space-y-1 z-20">
             <div className="text-gray-400 font-medium mb-1 border-b border-white/5 pb-0.5">MAP LEGEND</div>
-            <div className="flex items-center gap-1.5 text-green-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Normal (Egress &lt;3m)
-            </div>
-            <div className="flex items-center gap-1.5 text-yellow-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" /> Caution (Queue &gt;15m)
-            </div>
-            <div className="flex items-center gap-1.5 text-red-400 animate-pulse">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500" /> Critical Incident Alert
-            </div>
+            <ul className="space-y-1">
+              <li className="flex items-center gap-1.5 text-green-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Normal (Egress &lt;3m)
+              </li>
+              <li className="flex items-center gap-1.5 text-yellow-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-yellow-500" /> Caution (Queue &gt;15m)
+              </li>
+              <li className="flex items-center gap-1.5 text-red-400 animate-pulse">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500" /> Critical Incident Alert
+              </li>
+            </ul>
           </div>
 
           {/* Interactive SVG Stadium */}
@@ -162,7 +166,7 @@ export default function DigitalTwin({
 
             {/* Entry Gates Markers with dynamic coloring */}
             {/* Gate 1 (North) */}
-            <g transform="translate(300, 50)" className="cursor-pointer group">
+            <g transform="translate(300, 50)" className="cursor-pointer group" tabIndex={0} role="button" aria-label="Gate 1 (North) entry point">
               <circle r="12" fill={incidents.some(i => i.location.includes('Gate 1')) ? '#ef4444' : '#22c55e'} opacity="0.2" className="animate-ping" />
               <circle r="8" fill={incidents.some(i => i.location.includes('Gate 1')) ? '#ef4444' : '#22c55e'} stroke="white" strokeWidth="1" />
               <text y="3" fill="white" fontSize="8" textAnchor="middle" fontWeight="bold">G1</text>
@@ -170,7 +174,7 @@ export default function DigitalTwin({
             </g>
 
             {/* Gate 2 (West) */}
-            <g transform="translate(100, 225)" className="cursor-pointer group">
+            <g transform="translate(100, 225)" className="cursor-pointer group" tabIndex={0} role="button" aria-label="Gate 2 (West) entry point">
               <circle r="12" fill={incidents.some(i => i.location.includes('Gate 2')) ? '#ef4444' : '#eab308'} opacity="0.2" className="animate-ping" />
               <circle r="8" fill={incidents.some(i => i.location.includes('Gate 2')) ? '#ef4444' : '#eab308'} stroke="white" strokeWidth="1" />
               <text y="3" fill="white" fontSize="8" textAnchor="middle" fontWeight="bold">G2</text>
@@ -178,7 +182,7 @@ export default function DigitalTwin({
             </g>
 
             {/* Gate 3 (East) */}
-            <g transform="translate(500, 225)" className="cursor-pointer group">
+            <g transform="translate(500, 225)" className="cursor-pointer group" tabIndex={0} role="button" aria-label="Gate 3 (East) entry point">
               <circle r="12" fill={incidents.some(i => i.location.includes('Gate 3')) ? '#ef4444' : '#22c55e'} opacity="0.2" className="animate-ping" />
               <circle r="8" fill={incidents.some(i => i.location.includes('Gate 3')) ? '#ef4444' : '#22c55e'} stroke="white" strokeWidth="1" />
               <text y="3" fill="white" fontSize="8" textAnchor="middle" fontWeight="bold">G3</text>
@@ -186,7 +190,7 @@ export default function DigitalTwin({
             </g>
 
             {/* Gate 4 (South / Gate C congestion) */}
-            <g transform="translate(300, 400)" className="cursor-pointer group">
+            <g transform="translate(300, 400)" className="cursor-pointer group" tabIndex={0} role="button" aria-label="Gate 4 (South/Gate C) entry point">
               <circle r="16" fill={incidents.some(i => i.location.includes('Gate C')) ? '#ef4444' : '#22c55e'} opacity="0.3" className="animate-ping" />
               <circle r="8" fill={incidents.some(i => i.location.includes('Gate C')) ? '#ef4444' : '#22c55e'} stroke="white" strokeWidth="1" />
               <text y="3" fill="white" fontSize="8" textAnchor="middle" fontWeight="bold">G4</text>
@@ -200,9 +204,19 @@ export default function DigitalTwin({
               fill={hoveredSector === 'Sector A' ? 'rgba(99,102,241,0.45)' : (showHeatmap && incidents.some(i => i.location.includes('Sector A')) ? 'rgba(239,68,68,0.35)' : 'rgba(30,41,59,0.45)')}
               stroke={incidents.some(i => i.location.includes('Sector A')) ? '#ef4444' : '#3b82f6'}
               strokeWidth="1.5"
+              tabIndex={0}
+              role="button"
+              aria-label={`Interactive Sector A seating details. Occupancy ${getSectorStats('Sector A').occupancy}%, Temperature ${getSectorStats('Sector A').temp}°C.`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setHoveredSector(hoveredSector === 'Sector A' ? null : 'Sector A');
+                }
+              }}
               className="transition-all duration-200 cursor-pointer"
               onMouseEnter={() => setHoveredSector('Sector A')}
               onMouseLeave={() => setHoveredSector(null)}
+              onFocus={() => setHoveredSector('Sector A')}
+              onBlur={() => setHoveredSector(null)}
             />
             <text x="215" y="105" fill="white" fontSize="10" fontWeight="600" pointerEvents="none">SECTOR A</text>
 
@@ -212,9 +226,19 @@ export default function DigitalTwin({
               fill={hoveredSector === 'Sector B' ? 'rgba(99,102,241,0.45)' : (showHeatmap && incidents.some(i => i.location.includes('Sector B')) ? 'rgba(239,68,68,0.35)' : 'rgba(30,41,59,0.45)')}
               stroke={incidents.some(i => i.location.includes('Sector B')) ? '#ef4444' : '#3b82f6'}
               strokeWidth="1.5"
+              tabIndex={0}
+              role="button"
+              aria-label={`Interactive Sector B seating details. Occupancy ${getSectorStats('Sector B').occupancy}%, Temperature ${getSectorStats('Sector B').temp}°C.`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setHoveredSector(hoveredSector === 'Sector B' ? null : 'Sector B');
+                }
+              }}
               className="transition-all duration-200 cursor-pointer"
               onMouseEnter={() => setHoveredSector('Sector B')}
               onMouseLeave={() => setHoveredSector(null)}
+              onFocus={() => setHoveredSector('Sector B')}
+              onBlur={() => setHoveredSector(null)}
             />
             <text x="385" y="105" fill="white" fontSize="10" fontWeight="600" pointerEvents="none">SECTOR B</text>
 
@@ -224,9 +248,19 @@ export default function DigitalTwin({
               fill={hoveredSector === 'Sector C' ? 'rgba(99,102,241,0.45)' : (showHeatmap && incidents.some(i => i.location.includes('Sector C')) ? 'rgba(239,68,68,0.35)' : 'rgba(30,41,59,0.45)')}
               stroke={incidents.some(i => i.location.includes('Sector C')) ? '#ef4444' : '#3b82f6'}
               strokeWidth="1.5"
+              tabIndex={0}
+              role="button"
+              aria-label={`Interactive Sector C seating details. Occupancy ${getSectorStats('Sector C').occupancy}%, Temperature ${getSectorStats('Sector C').temp}°C.`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setHoveredSector(hoveredSector === 'Sector C' ? null : 'Sector C');
+                }
+              }}
               className="transition-all duration-200 cursor-pointer"
               onMouseEnter={() => setHoveredSector('Sector C')}
               onMouseLeave={() => setHoveredSector(null)}
+              onFocus={() => setHoveredSector('Sector C')}
+              onBlur={() => setHoveredSector(null)}
             />
             <text x="385" y="345" fill="white" fontSize="10" fontWeight="600" pointerEvents="none">SECTOR C</text>
 
@@ -236,9 +270,19 @@ export default function DigitalTwin({
               fill={hoveredSector === 'Sector D' ? 'rgba(99,102,241,0.45)' : (showHeatmap && incidents.some(i => i.location.includes('Sector D')) ? 'rgba(239,68,68,0.35)' : 'rgba(30,41,59,0.45)')}
               stroke={incidents.some(i => i.location.includes('Sector D')) ? '#ef4444' : '#3b82f6'}
               strokeWidth="1.5"
+              tabIndex={0}
+              role="button"
+              aria-label={`Interactive Sector D seating details. Occupancy ${getSectorStats('Sector D').occupancy}%, Temperature ${getSectorStats('Sector D').temp}°C.`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setHoveredSector(hoveredSector === 'Sector D' ? null : 'Sector D');
+                }
+              }}
               className="transition-all duration-200 cursor-pointer"
               onMouseEnter={() => setHoveredSector('Sector D')}
               onMouseLeave={() => setHoveredSector(null)}
+              onFocus={() => setHoveredSector('Sector D')}
+              onBlur={() => setHoveredSector(null)}
             />
             <text x="215" y="345" fill="white" fontSize="10" fontWeight="600" pointerEvents="none">SECTOR D</text>
 
@@ -285,9 +329,19 @@ export default function DigitalTwin({
                   key={incident.id}
                   transform={`translate(${coords.x}, ${coords.y})`}
                   className="cursor-pointer"
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`Active incident: ${incident.title}. Press Enter or Space to toggle details.`}
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveIncidentId(incident.id === activeIncidentId ? null : incident.id);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setActiveIncidentId(incident.id === activeIncidentId ? null : incident.id);
+                    }
                   }}
                 >
                   <circle r="18" fill="#ef4444" opacity="0.3" className="animate-ping" />
